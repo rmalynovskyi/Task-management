@@ -1,0 +1,21 @@
+{
+  "name": "course_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.0",
+    "nodemon": "^2.0.13",
+    "sequelize": "^6.6.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
