@@ -11,7 +11,8 @@ const User = sequelize.define("user", {
 const Task = sequelize.define("task", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, allowNull: false},
-    topic: {type: DataTypes.STRING, allowNull: false}
+    topic: {type: DataTypes.STRING, allowNull: false},
+    solutions: {type: DataTypes.STRING, allowNull: false}
 });
 
 User.hasMany(Task);

@@ -3,16 +3,16 @@ const {Task} = require('../models/models');
 class TaskController {
 
     async create(req, res) {
-        const {name, topic, userId} = req.body;
-        const task = await Task.create({name, topic, userId});
+        const {name, topic, solutions, userId} = req.body;
+        const task = await Task.create({name, topic, solutions, userId});
         return res.json(task);
     }
 
     async update(req, res) {
         const {id} = req.params;
-        const {name, topic} = req.body;
+        const {name, topic, solutions} = req.body;
         await Task.update(
-            {name: name, topic: topic},
+            {name: name, topic: topic, solutions},
             {where: {id: id}}
         ).then((result, err) => {
                 console.log(err);

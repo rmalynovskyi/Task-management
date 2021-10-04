@@ -1,24 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Button, Container} from "react-bootstrap";
+import {Form, Button, Container, Col} from "react-bootstrap";
 import Axios from "axios";
 import {useHistory, useParams} from "react-router-dom";
+import Solutions from "./Solutions";
 
 const CreateUpdateTask = () => {
     const {id, taskId} = useParams();
     let history = useHistory();
     const [taskName, setTaskName] = useState("");
     const [taskTopic, setTaskTopic] = useState("");
+    const [solutions, setSolutions] = useState("");
+    const [solutionsToUpdate, setSolutionsToUpdate] = useState("");
     const [taskNameToUpdate, setTaskNameToUpdate] = useState("");
     const [taskTopicToUpdate, setTaskTopicToUpdate] = useState("");
 
     async function createTask() {
-        const newTask = {name: taskName, topic: taskTopic, userId: id}
+        const newTask = {name: taskName, topic: taskTopic, solutions: solutions, userId: id}
         await Axios.post("/api/tasks", newTask).then(
             history.push(`/user/${id}`)
         );
     }
 
-    function isUpdate() {
+    function isUpdating() {
         if (taskId > 0) {
             return true;
         } else {
@@ -27,17 +30,26 @@ const CreateUpdateTask = () => {
     }
 
     async function updateTask() {
-        const taskToUpdate = {name: taskNameToUpdate, topic: taskTopicToUpdate}
+        const taskToUpdate = {name: taskNameToUpdate, topic: taskTopicToUpdate, solutions: solutionsToUpdate}
         await Axios.put(`/api/tasks/${taskId}`, taskToUpdate).then(
             history.push(`/user/${id}`)
         );
     }
 
+    function getSolutionsCreate(data) {
+        setSolutions(data);
+    }
+
+    function getSolutionsUpdate(data) {
+        setSolutionsToUpdate(data);
+    }
+
     useEffect(() => {
-        if (isUpdate() === true) {
+        if (isUpdating() === true) {
             Axios.get(`/api/tasks/${taskId}`).then(response => {
                     setTaskNameToUpdate(response.data.name);
                     setTaskTopicToUpdate(response.data.topic);
+                    setSolutionsToUpdate(response.data.solutions);
                 }
             );
         }
@@ -48,8 +60,8 @@ const CreateUpdateTask = () => {
             <Container>
                 <Form.Group className="mb-3">
                     <Form.Label>Task name</Form.Label>
-                    <Form.Control defaultValue={isUpdate() === true ? taskNameToUpdate : ""} onChange={(e) => {
-                        if (isUpdate() === true) {
+                    <Form.Control defaultValue={isUpdating() === true ? taskNameToUpdate : ""} onChange={(e) => {
+                        if (isUpdating() === true) {
                             setTaskNameToUpdate(e.target.value);
                         }
                         setTaskName(e.target.value)
@@ -59,10 +71,10 @@ const CreateUpdateTask = () => {
                     <Form.Label>Task topic</Form.Label>
                     <Form.Control as="select"
                                   onChange={(e) => {
-                                      if (isUpdate() === true) {
-                                          setTaskTopicToUpdate(e.target.value)
+                                      if (isUpdating() === true) {
+                                          setTaskTopicToUpdate(e.target.value);
                                       }
-                                      setTaskTopic(e.target.value)
+                                      setTaskTopic(e.target.value);
                                   }} type="text">
                         <option value="">Select task topic</option>
                         <option value="Geometry">Geometry</option>
@@ -71,7 +83,10 @@ const CreateUpdateTask = () => {
                         <option value="Java Script">Java Script</option>
                     </Form.Control>
                 </Form.Group>
-                <Button onClick={isUpdate() === true ? updateTask : createTask} variant="primary" type="submit">
+                <Solutions solutionsCreate={(data) => getSolutionsCreate(data)}
+                           solutionForUpdate={solutionsToUpdate} solutionsUpdate={(data) => getSolutionsUpdate(data)}
+                           isUpdate={isUpdating()}/>
+                <Button onClick={isUpdating() === true ? updateTask : createTask} variant="primary" type="submit">
                     Submit
                 </Button>
                 <Button style={{margin: "30px"}} onClick={() => {
