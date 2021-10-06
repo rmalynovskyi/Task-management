@@ -7,6 +7,7 @@ import Solutions from "./Solutions";
 const CreateUpdateTask = () => {
     const {id, taskId} = useParams();
     let history = useHistory();
+    const [currentUser, setCurrentUser] = useState({});
     const [taskName, setTaskName] = useState("");
     const [taskTopic, setTaskTopic] = useState("");
     const [solutions, setSolutions] = useState("");
@@ -14,11 +15,11 @@ const CreateUpdateTask = () => {
     const [taskNameToUpdate, setTaskNameToUpdate] = useState("");
     const [taskTopicToUpdate, setTaskTopicToUpdate] = useState("");
 
-    async function createTask() {
+    function createTask() {
         const newTask = {name: taskName, topic: taskTopic, solutions: solutions, userId: id}
-        await Axios.post("/api/tasks", newTask).then(
-            history.push(`/user/${id}`)
-        );
+        Axios.post("/api/tasks", newTask).then();
+        Axios.put(`/api/users/${id}`, {createdTasks: currentUser.createdTasks + 1}).then()
+        history.push(`/user/${id}`)
     }
 
     function isUpdating() {
@@ -53,6 +54,9 @@ const CreateUpdateTask = () => {
                 }
             );
         }
+        Axios.get(`/api/users/${id}`).then(response => {
+            setCurrentUser(response.data);
+        })
     }, [])
 
     return (
@@ -69,13 +73,12 @@ const CreateUpdateTask = () => {
                 </Form.Group>
                 <Form.Group className="mb-3">
                     <Form.Label>Task topic</Form.Label>
-                    <Form.Control as="select"
-                                  onChange={(e) => {
-                                      if (isUpdating() === true) {
-                                          setTaskTopicToUpdate(e.target.value);
-                                      }
-                                      setTaskTopic(e.target.value);
-                                  }} type="text">
+                    <Form.Control as="select" onChange={(e) => {
+                        if (isUpdating() === true) {
+                            setTaskTopicToUpdate(e.target.value);
+                        }
+                        setTaskTopic(e.target.value);
+                    }} type="text">
                         <option value="">Select task topic</option>
                         <option value="Geometry">Geometry</option>
                         <option value="Number theory">Number theory</option>
@@ -90,7 +93,7 @@ const CreateUpdateTask = () => {
                     Submit
                 </Button>
                 <Button style={{margin: "30px"}} onClick={() => {
-                    history.push(`/user/${id}`);
+                    history.push(`/user/${id}`)
                 }} variant="secondary" type="submit">
                     Cancel
                 </Button>

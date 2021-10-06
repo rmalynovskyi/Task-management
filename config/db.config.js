@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: /*"localhost"*/"us-cdbr-east-04.cleardb.com",
-    USER: /*"root"*/"ba226f932ac50c",
-    PASSWORD: /*"root"*/"b715b933",
-    DB: /*"task_storage"*/"heroku_681ebc012ba4ebd",
+    HOST: "localhost"/*"us-cdbr-east-04.cleardb.com"*/,
+    USER: "root"/*"ba226f932ac50c"*/,
+    PASSWORD: "root"/*"b715b933"*/,
+    DB: "task_storage"/*"heroku_681ebc012ba4ebd"*/,
     dialect: "mysql"
     /*pool: {
         max: 5,

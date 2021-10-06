@@ -15,10 +15,26 @@ const Task = sequelize.define("task", {
     solutions: {type: DataTypes.STRING, allowNull: false}
 });
 
+const CompleteTask = sequelize.define("completeTask", {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    taskId: {type: DataTypes.INTEGER, allowNull: false},
+    solution: {type: DataTypes.STRING, allowNull: false}
+});
+
+/*
+const UserCompleteTask = sequelize.define("userCompleteTask", {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true}
+});
+*/
+
 User.hasMany(Task);
 Task.belongsTo(User);
 
+User.hasMany(CompleteTask);
+CompleteTask.belongsTo(User);
+
 module.exports = {
     User,
-    Task
+    Task,
+    CompleteTask
 }

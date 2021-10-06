@@ -26,7 +26,7 @@ class UserController {
     }
 
     async getAll(req, res) {
-        const users = await User.findAll({include: [{model: Task, as: 'tasks'}]});
+        const users = await User.findAll();
         return res.json(users);
     }
 

@@ -58,10 +58,11 @@ const User = () => {
         history.push(`/user/${id}/createUpdate`);
     }
 
-    async function deleteTask() {
-        await Axios.delete(`/api/tasks/${selectedId}`).then(
-            setUserTasks(userTasks.filter(user => user.id !== selectedId))
-        )
+    function deleteTask() {
+        Axios.delete(`/api/tasks/${selectedId}`).then(
+            setUserTasks(userTasks.filter(task => task.id !== selectedId))
+        );
+        Axios.delete(`/api/completeTasks/${selectedId}`).then();
     }
 
     function updateTask() {
@@ -70,6 +71,9 @@ const User = () => {
 
     return (
         <div className="userInfo">
+            <header className="pb-3 mb-4 border-bottom">
+                <span className="fs-4 fw-bold">Welcome, {user.name}! There is list of your tasks:</span>
+            </header>
             <BootstrapTable bootstrap4={true} keyField='id' data={userTasks} columns={columns}
                             filter={filterFactory()} selectRow={selectRow}/>
             <Button style={{margin: "15px"}} variant="primary" onClick={addTask}>Add task</Button>

@@ -12,7 +12,7 @@ class TaskController {
         const {id} = req.params;
         const {name, topic, solutions} = req.body;
         await Task.update(
-            {name: name, topic: topic, solutions},
+            {name: name, topic: topic, solutions: solutions},
             {where: {id: id}}
         ).then((result, err) => {
                 console.log(err);
