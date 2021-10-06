@@ -1,25 +1,66 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Button, Container, Col} from "react-bootstrap";
-import Axios from "axios";
-import {useHistory, useParams} from "react-router-dom";
-import Solutions from "./Solutions";
+import {Form, Button, Container} from 'react-bootstrap';
+import Axios from 'axios';
+import {useHistory, useParams} from 'react-router-dom';
+import Solutions from './Solutions';
+import TaskName from './TaskName';
+import TaskDescription from './TaskDescription';
+import TaskTopic from './TaskTopic';
 
 const CreateUpdateTask = () => {
     const {id, taskId} = useParams();
     let history = useHistory();
     const [currentUser, setCurrentUser] = useState({});
-    const [taskName, setTaskName] = useState("");
-    const [taskTopic, setTaskTopic] = useState("");
+
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [topic, setTopic] = useState("");
     const [solutions, setSolutions] = useState("");
+
+    const [nameToUpdate, setNameToUpdate] = useState("");
+    const [descriptionToUpdate, setDescriptionToUpdate] = useState("");
+    const [topicToUpdate, setTopicToUpdate] = useState("");
     const [solutionsToUpdate, setSolutionsToUpdate] = useState("");
-    const [taskNameToUpdate, setTaskNameToUpdate] = useState("");
-    const [taskTopicToUpdate, setTaskTopicToUpdate] = useState("");
+
+    useEffect(() => {
+        Axios.get(`/api/users/${id}`).then(response => {
+            setCurrentUser(response.data);
+        });
+        if (isUpdating() === true) {
+            Axios.get(`/api/tasks/${taskId}`).then(response => {
+                    setNameToUpdate(response.data.name);
+                    setDescriptionToUpdate(response.data.description);
+                    setTopicToUpdate(response.data.topic);
+                    setSolutionsToUpdate(response.data.solutions);
+                }
+            );
+        }
+    }, []);
+
 
     function createTask() {
-        const newTask = {name: taskName, topic: taskTopic, solutions: solutions, userId: id}
+        const newTask = {
+            name: name,
+            description: description,
+            topic: topic,
+            solutions: solutions,
+            userId: id
+        }
         Axios.post("/api/tasks", newTask).then();
-        Axios.put(`/api/users/${id}`, {createdTasks: currentUser.createdTasks + 1}).then()
-        history.push(`/user/${id}`)
+        Axios.put(`/api/users/${id}`, {createdTasks: currentUser.createdTasks + 1}).then();
+        history.push(`/user/${id}`);
+    }
+
+    async function updateTask() {
+        const taskToUpdate = {
+            name: nameToUpdate,
+            description: descriptionToUpdate,
+            topic: topicToUpdate,
+            solutions: solutionsToUpdate
+        }
+        await Axios.put(`/api/tasks/${taskId}`, taskToUpdate).then(
+            history.push(`/user/${id}`)
+        );
     }
 
     function isUpdating() {
@@ -30,12 +71,30 @@ const CreateUpdateTask = () => {
         }
     }
 
-    async function updateTask() {
-        const taskToUpdate = {name: taskNameToUpdate, topic: taskTopicToUpdate, solutions: solutionsToUpdate}
-        await Axios.put(`/api/tasks/${taskId}`, taskToUpdate).then(
-            history.push(`/user/${id}`)
-        );
+    function getName(data) {
+        setName(data);
     }
+
+    function getNameToUpdate(data) {
+        setNameToUpdate(data);
+    }
+
+    function getDescription(data) {
+        setDescription(data);
+    }
+
+    function getDescriptionToUpdate(data) {
+        setDescriptionToUpdate(data);
+    }
+
+    function getTopic(data) {
+        setTopic(data);
+    }
+
+    function getTopicToUpdate(data) {
+        setTopicToUpdate(data);
+    }
+
 
     function getSolutionsCreate(data) {
         setSolutions(data);
@@ -45,50 +104,24 @@ const CreateUpdateTask = () => {
         setSolutionsToUpdate(data);
     }
 
-    useEffect(() => {
-        if (isUpdating() === true) {
-            Axios.get(`/api/tasks/${taskId}`).then(response => {
-                    setTaskNameToUpdate(response.data.name);
-                    setTaskTopicToUpdate(response.data.topic);
-                    setSolutionsToUpdate(response.data.solutions);
-                }
-            );
-        }
-        Axios.get(`/api/users/${id}`).then(response => {
-            setCurrentUser(response.data);
-        })
-    }, [])
-
     return (
         <Form>
             <Container>
-                <Form.Group className="mb-3">
-                    <Form.Label>Task name</Form.Label>
-                    <Form.Control defaultValue={isUpdating() === true ? taskNameToUpdate : ""} onChange={(e) => {
-                        if (isUpdating() === true) {
-                            setTaskNameToUpdate(e.target.value);
-                        }
-                        setTaskName(e.target.value)
-                    }} type="text" placeholder="Enter task name"/>
-                </Form.Group>
-                <Form.Group className="mb-3">
-                    <Form.Label>Task topic</Form.Label>
-                    <Form.Control as="select" onChange={(e) => {
-                        if (isUpdating() === true) {
-                            setTaskTopicToUpdate(e.target.value);
-                        }
-                        setTaskTopic(e.target.value);
-                    }} type="text">
-                        <option value="">Select task topic</option>
-                        <option value="Geometry">Geometry</option>
-                        <option value="Number theory">Number theory</option>
-                        <option value="Java">Java</option>
-                        <option value="Java Script">Java Script</option>
-                    </Form.Control>
-                </Form.Group>
+                <TaskName name={(data) => getName(data)}
+                          nameUpdate={(data) => getNameToUpdate(data)}
+                          isUpdating={isUpdating}
+                          nameToUpdate={nameToUpdate}/>
+                <TaskDescription description={(data) => getDescription(data)}
+                                 descriptionUpdate={(data) => getDescriptionToUpdate(data)}
+                                 isUpdating={isUpdating}
+                                 descriptionToUpdate={descriptionToUpdate}/>
+                <TaskTopic topic={(data) => getTopic(data)}
+                           topicUpdate={(data) => getTopicToUpdate(data)}
+                           isUpdating={isUpdating}
+                           topicToUpdate={topicToUpdate}/>
                 <Solutions solutionsCreate={(data) => getSolutionsCreate(data)}
                            solutionForUpdate={solutionsToUpdate} solutionsUpdate={(data) => getSolutionsUpdate(data)}
-                           isUpdate={isUpdating()}/>
+                           isUpdating={isUpdating()}/>
                 <Button onClick={isUpdating() === true ? updateTask : createTask} variant="primary" type="submit">
                     Submit
                 </Button>

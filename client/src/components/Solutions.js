@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Col, Form} from "react-bootstrap";
+import Solution from './Solution';
 
 const Solutions = (props) => {
     const [solution1, setSolution1] = useState("");
@@ -10,62 +10,50 @@ const Solutions = (props) => {
     const [solution3ForUpdate, setSolution3ForUpdate] = useState("");
 
     useEffect(() => {
-        if (props.isUpdate === true) {
+        if (props.isUpdating === true) {
             let str = [solution1ForUpdate, solution2ForUpdate, solution3ForUpdate]
             props.solutionsUpdate(str.join(" "));
         } else {
             let strings = [solution1, solution2, solution3]
             props.solutionsCreate(strings.join(" "));
         }
-    }, [solution1, solution2, solution3])
+    }, [solution1, solution2, solution3]);
+
+    function getSolution1(data) {
+        setSolution1(data);
+    }
+
+    function getSolution2(data) {
+        setSolution2(data);
+    }
+
+    function getSolution3(data) {
+        setSolution3(data);
+    }
+
+    function getSolution1ToUpdate(data) {
+        setSolution1ForUpdate(data);
+    }
+
+    function getSolution2ToUpdate(data) {
+        setSolution2ForUpdate(data);
+    }
+
+    function getSolution3ToUpdate(data) {
+        setSolution3ForUpdate(data);
+    }
 
     return (
         <div>
-            <Form.Group className="mb-3">
-                <Form.Label>
-                    Solution 1
-                </Form.Label>
-                <Col>
-                    <Form.Control
-                        defaultValue={props.solutionForUpdate ? props.solutionForUpdate.split(' ')[0] : ""}
-                        placeholder="Enter solution 1" onChange={(e) => {
-                        if (props.isUpdate === true) {
-                            setSolution1ForUpdate(e.target.value);
-                        }
-                        setSolution1(e.target.value);
-                    }}/>
-                </Col>
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>
-                    Solution 2
-                </Form.Label>
-                <Col>
-                    <Form.Control
-                        defaultValue={props.solutionForUpdate ? props.solutionForUpdate.split(' ')[1] : ""}
-                        placeholder="Enter solution 2" onChange={(e) => {
-                        if (props.isUpdate === true) {
-                            setSolution2ForUpdate(e.target.value);
-                        }
-                        setSolution2(e.target.value);
-                    }}/>
-                </Col>
-            </Form.Group>
-            <Form.Group className="mb-3">
-                <Form.Label>
-                    Solution 3
-                </Form.Label>
-                <Col>
-                    <Form.Control
-                        defaultValue={props.solutionForUpdate ? props.solutionForUpdate.split(' ')[2] : ""}
-                        placeholder="Enter solution 3" onChange={(e) => {
-                        if (props.isUpdate === true) {
-                            setSolution3ForUpdate(e.target.value);
-                        }
-                        setSolution3(e.target.value);
-                    }}/>
-                </Col>
-            </Form.Group>
+            <Solution number={1} index={0} solutionForUpdate={props.solutionForUpdate}
+                      solution={(data) => getSolution1(data)} isUpdating={props.isUpdating}
+                      solutionToUpdate={(data) => getSolution1ToUpdate(data)}/>
+            <Solution number={2} index={1} solutionForUpdate={props.solutionForUpdate}
+                      solution={(data) => getSolution2(data)} isUpdating={props.isUpdating}
+                      solutionToUpdate={(data) => getSolution2ToUpdate(data)}/>
+            <Solution number={3} index={2} solutionForUpdate={props.solutionForUpdate}
+                      solution={(data) => getSolution3(data)} isUpdating={props.isUpdating}
+                      solutionToUpdate={(data) => getSolution3ToUpdate(data)}/>
         </div>
     );
 };

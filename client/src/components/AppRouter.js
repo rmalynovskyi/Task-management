@@ -1,10 +1,10 @@
 import React from 'react';
-import {Redirect, Route, Switch} from "react-router-dom";
-import Task from "./Task";
-import Admin from "./Admin";
-import User from "./User";
-import MainPage from "./Main page";
-import CreateUpdateTask from "./CreateUpdateTask";
+import {Redirect, Route, Switch} from 'react-router-dom';
+import Task from './Task';
+import Admin from './Admin';
+import User from './User';
+import MainPage from './Main page';
+import CreateUpdateTask from './CreateUpdateTask';
 
 const AppRouter = () => {
     return (

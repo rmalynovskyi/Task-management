@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {useHistory, useParams} from "react-router-dom";
+import {useHistory, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter';
-import {Card, Button} from "react-bootstrap";
+import {Card, Button} from 'react-bootstrap';
 
 const User = () => {
     let {id} = useParams();

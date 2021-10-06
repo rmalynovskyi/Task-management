@@ -1,6 +1,6 @@
 import React from 'react';
-import {BrowserRouter} from "react-router-dom";
-import AppRouter from "./components/AppRouter";
+import {BrowserRouter} from 'react-router-dom';
+import AppRouter from './components/AppRouter';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 

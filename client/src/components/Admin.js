@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import Axios from 'axios';
 import {Row, Col, ListGroup} from 'react-bootstrap'
-import {useHistory} from "react-router-dom";
+import {useHistory} from 'react-router-dom';
 
 const Admin = () => {
     const [users, setUsers] = useState([]);
