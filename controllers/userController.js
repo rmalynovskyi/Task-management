@@ -41,6 +41,12 @@ class UserController {
             return res.json(user);
         }
     }
+
+    async getByName(req, res) {
+        const {name} = req.query;
+        const user = await User.findOne({where: {name: name}})
+        return res.json(user);
+    }
 }
 
 module.exports = new UserController();

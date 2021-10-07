@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter';
-import {Card, Button} from 'react-bootstrap';
+import {Card, Button, Container, Navbar} from 'react-bootstrap';
+import {Context} from "../index";
 
 const User = () => {
     let {id} = useParams();
@@ -11,10 +12,13 @@ const User = () => {
     const [user, setUser] = useState({});
     const [userTasks, setUserTasks] = useState([]);
     const [selectedId, setSelectedId] = useState(0);
+    const {auth} = useContext(Context);
 
     const columns = [{
         dataField: 'id',
-        text: 'Task number'
+        text: 'Task number',
+        sort: true,
+        filter: textFilter()
     }, {
         dataField: 'name',
         text: 'Task name',
@@ -71,9 +75,18 @@ const User = () => {
 
     return (
         <div className="userInfo">
-            <header className="pb-3 mb-4 border-bottom">
-                <span className="fs-4 fw-bold">Welcome, {user.name}! There is list of your tasks:</span>
-            </header>
+            <Navbar className="mb-5" bg="light" variant="light">
+                <Container>
+                    <Button variant="secondary" onClick={() => {
+                        history.push(`/admin`)
+                    }}>Admin panel</Button>
+                    <Navbar.Collapse className="justify-content-end">
+                        <Navbar.Text>
+                            Signed in as: {user.name}
+                        </Navbar.Text>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
             <BootstrapTable bootstrap4={true} keyField='id' data={userTasks} columns={columns}
                             filter={filterFactory()} selectRow={selectRow}/>
             <Button style={{margin: "15px"}} variant="primary" onClick={addTask}>Add task</Button>
@@ -81,6 +94,8 @@ const User = () => {
             <Button style={{margin: "15px"}} variant="warning" onClick={updateTask}>Update task</Button>
             <Card body>Solved tasks: {user.solvedTasks}</Card>
             <Card body>Created tasks: {user.createdTasks}</Card>
+            <Button style={{margin: "15px"}} variant="outline-secondary" onClick={() => auth.signOut()}>Sign
+                out</Button>
         </div>
     );
 };

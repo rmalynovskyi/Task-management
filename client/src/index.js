@@ -1,10 +1,18 @@
-import React from 'react';
+import React, {createContext, useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.css';
+import 'bootstrap-social/bootstrap-social.css';
 import App from './App';
+import firebase from "firebase/compat";
+
+const auth = firebase.auth();
+export const Context = createContext(null);
 
 ReactDOM.render(
-    <App />,
-  document.getElementById('root')
-);
+    <Context.Provider value={{auth}}><App/> </Context.Provider>,
+    document.getElementById('root')
+)
+;
 
