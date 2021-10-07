@@ -1,14 +1,9 @@
 module.exports = {
-    HOST: "localhost"/*"us-cdbr-east-04.cleardb.com"*/,
-    USER: "root"/*"ba226f932ac50c"*/,
-    PASSWORD: "root"/*"b715b933"*/,
-    DB: "task_storage"/*"heroku_681ebc012ba4ebd"*/,
+    HOST: /*"localhost"*/"us-cdbr-east-04.cleardb.com",
+    USER: /*"root"*/"b8a9ed4b9acfea",
+    PASSWORD: /*"root"*/"0b8f56ec",
+    DB: /*"task_storage"*/"heroku_1bee8319e312dc3",
     dialect: "mysql"
-    /*pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }*/
-    //mysql://ba226f932ac50c:b715b933@us-cdbr-east-04.cleardb.com/heroku_681ebc012ba4ebd?reconnect=true
 };
+
+//mysql://b8a9ed4b9acfea:0b8f56ec@us-cdbr-east-04.cleardb.com/heroku_1bee8319e312dc3?reconnect=true
