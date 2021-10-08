@@ -7,8 +7,7 @@ const firebaseConfig = {
     storageBucket: "outh-via-social-network.appspot.com",
     messagingSenderId: "696222547265",
     appId: "1:696222547265:web:c4b926daf2eb3c9fd775c0",
-    measurementId: "G-QRV99TBMP0",
-    databaseURL: "https://outh-via-social-network-default-rtdb.europe-west1.firebasedatabase.app",
+    measurementId: "G-QRV99TBMP0"
 };
 
 firebase.initializeApp(firebaseConfig);

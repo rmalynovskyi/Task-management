@@ -26,6 +26,7 @@ const AppRouter = () => {
     ) : (
         <Switch>
             <Route path="/" component={MainPage} exact={true}/>
+            <Route path="/user/:id/openTask/:taskId" component={Task} exact={true}/>
             <Redirect to="/"/>
         </Switch>
     );

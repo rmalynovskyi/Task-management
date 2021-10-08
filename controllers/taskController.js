@@ -50,7 +50,10 @@ class TaskController {
     }
 
     async getAll(req, res) {
-        const tasks = await Task.findAll();
+        const tasks = await Task.findAll({
+            limit: 7,
+            order: [['createdAt', 'DESC']]
+        });
         return res.json(tasks);
     }
 }
