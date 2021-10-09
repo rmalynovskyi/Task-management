@@ -18,6 +18,7 @@ code {
 
 .rating {
     display: inline-block;
+    justify-content: center;
 }
 
 .userInfo {

@@ -4,7 +4,6 @@ const taskController = require('../controllers/taskController');
 
 router.get('/new', taskController.getLastAdded);
 router.get('/', taskController.getAll);
-router.get('/byUser', taskController.getAllByUserId);
 router.get('/:id', taskController.getById);
 router.post('/', taskController.create);
 router.put('/:id', taskController.update);

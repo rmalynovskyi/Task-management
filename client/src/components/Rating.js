@@ -5,7 +5,6 @@ import Axios from "axios";
 const Rating = (props) => {
 
     const ratingChanged = (newRating) => {
-        console.log(props.userName);
         Axios.get("/api/ratings/byTaskIdAndUserId/", {
             params: {
                 taskId: props.taskId,
@@ -26,7 +25,6 @@ const Rating = (props) => {
             onChange={ratingChanged}
             size={24}
             activeColor="#ffd700"
-            filledIcon={3}
         />
         </div>
     );

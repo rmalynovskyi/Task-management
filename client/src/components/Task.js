@@ -13,7 +13,7 @@ const Task = (props) => {
     let history = useHistory();
     const {auth} = useContext(Context);
     const [user] = useAuthState(auth);
-    const {id, taskId} = useParams();
+    const {taskId} = useParams();
     const [task, setTask] = useState({});
     const [solved, setSolved] = useState(false);
     const [solution, setSolution] = useState("");
@@ -22,30 +22,24 @@ const Task = (props) => {
     const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
-        user !== null ? Axios.get(`/api/users/${id}`).then(response => {
-            setCurrentUser(response.data);
-            getUserTask(response.data.tasks);
-        }) : Axios.get(`/api/tasks/${taskId}`).then(response => setTask(response.data));
-    }, []);
-
-    function getUserTask(data) {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].id.toString() === taskId.toString()) {
-                setTask(data[i])
-            }
+        if (user !== null) {
+            Axios.get("/api/users/byName", {params: {name: props.userName}}).then(response => {
+                setCurrentUser(response.data);
+            })
         }
-    }
+        Axios.get(`/api/tasks/${taskId}`).then(response => setTask(response.data));
+    }, []);
 
     function checkSolution() {
         setEnter(true);
         let array = task.solutions.split(' ');
         for (let i = 0; i < array.length; i++) {
             if (solution && array[i].toLowerCase() === solution.toLowerCase().trim()) {
-                const solvedTask = {taskId: taskId, solution: solution, userId: id}
-                Axios.get("/api/completeTasks", {params: {taskId: taskId, userId: id}}).then(response => {
+                const solvedTask = {taskId: taskId, solution: solution, userId: currentUser.id}
+                Axios.get("/api/completeTasks", {params: {taskId: taskId, userId: currentUser.id}}).then(response => {
                     if (response.data === null) {
                         Axios.post(`/api/completeTasks`, solvedTask).then()
-                        Axios.put(`/api/users/${id}`, {solvedTasks: currentUser.solvedTasks + 1}).then()
+                        Axios.put(`/api/users/${currentUser.id}`, {solvedTasks: currentUser.solvedTasks + 1}).then()
                     } else {
                         setSolved(true);
                     }
@@ -83,11 +77,11 @@ const Task = (props) => {
                             </Button>
                         </InputGroup> : ""}
                         <Button className="mt-3" variant="outline-secondary"
-                                onClick={() => history.push(user !== null ? `/user/${id}` : "/")}>
+                                onClick={() => history.push(user !== null ? `/user/${currentUser.id}` : "/")}>
                             Exit
                         </Button>
                     </div>
-                    {user ? <Rating userId={id} userName={props.userName} taskId={taskId}/> : ""}
+                    {user ? <Rating userId={currentUser.id} taskId={taskId}/> : ""}
                 </div>
             </div>
         </div>

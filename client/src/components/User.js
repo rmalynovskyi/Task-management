@@ -54,13 +54,13 @@ const User = () => {
             setUser(response.data);
             setUserTasks(response.data.tasks)
         })
-        Axios.get("/api/tasks/").then(response => {
+        Axios.get("/api/tasks").then(response => {
             setTasks(response.data)
         });
     }, [])
 
     function openTask(taskId) {
-        history.push(`/user/${id}/openTask/${taskId}`)
+        history.push(`/openTask/${taskId}`)
     }
 
     function addTask() {
@@ -68,8 +68,10 @@ const User = () => {
     }
 
     function deleteTask() {
-        Axios.delete(`/api/tasks/${selectedId}`).then(
-            setUserTasks(userTasks.filter(task => task.id !== selectedId))
+        Axios.delete(`/api/tasks/${selectedId}`).then(res => {
+                setUserTasks(userTasks.filter(task => task.id !== selectedId))
+                setTasks(tasks.filter(task => task.id !== selectedId));
+            }
         );
         Axios.delete(`/api/completeTasks/${selectedId}`).then();
     }
@@ -93,20 +95,18 @@ const User = () => {
                 </Container>
             </Navbar>
             <Row className="fs-3 justify-content-center">Your tasks</Row>
-            <BootstrapTable bootstrap4={true} keyField='id' data={userTasks} columns={columns}
-                            filter={filterFactory()} selectRow={selectRow}/>
+            <BootstrapTable bootstrap4={true} keyField='id' data={userTasks} columns={columns} filter={filterFactory()}
+                            selectRow={selectRow}/>
             <Button style={{margin: "15px"}} variant="primary" onClick={addTask}>Add task</Button>
             <Button style={{margin: "15px"}} variant="danger" onClick={deleteTask}>Delete task</Button>
             <Button style={{margin: "15px"}} variant="warning" onClick={updateTask}>Update task</Button>
             <Card body>Solved tasks: {user.solvedTasks}</Card>
             <Card body>Created tasks: {user.createdTasks}</Card>
             <Row className="fs-3 justify-content-center">All tasks</Row>
-            <Row>
-                {tasks.map((value) => {
-                    return <Col className="mb-3"><TaskCard name={value.name} topic={value.topic}
-                                                           id={value.id}
-                                                           userId={value.userId}/></Col>
-                })}
+            <Row>{tasks.map((value) => {
+                return <Col className="mb-3"><TaskCard rating={value.ratings} name={value.name} topic={value.topic}
+                                                       id={value.id}/></Col>
+            })}
             </Row>
             <Button style={{margin: "15px"}} variant="outline-secondary" onClick={() => auth.signOut()}>Sign
                 out</Button>

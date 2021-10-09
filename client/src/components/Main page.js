@@ -7,9 +7,10 @@ import TaskCard from "./TaskCard";
 
 const MainPage = () => {
     const [tasks, setTasks] = useState([]);
-
     useEffect(() => {
-        Axios.get("api/tasks/new").then(res => setTasks(res.data));
+        Axios.get("api/tasks/new").then(res => {
+            setTasks(res.data)
+        });
     }, [])
 
     const socialMediaAuth = (provider) => {
@@ -50,11 +51,11 @@ const MainPage = () => {
                     </a>
                 </Col>
             </Row>
+            <Row className="fs-3">Latest tasks:</Row>
             <Row>
                 {tasks.map((value, index) => {
-                    return <Col className="mb-3"><TaskCard name={value.name} topic={value.topic}
-                                                           id={value.id}
-                                                           userId={value.userId}/></Col>
+                    return <Col className="mb-3"><TaskCard rating={value.ratings} name={value.name} topic={value.topic}
+                                                           id={value.id}/></Col>
                 })}
             </Row>
         </Container>

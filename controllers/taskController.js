@@ -1,4 +1,4 @@
-const {Task} = require('../models/models');
+const {Task, Rating} = require('../models/models');
 
 class TaskController {
 
@@ -33,32 +33,23 @@ class TaskController {
             res.json({message: "No ID specified!"})
         } else {
             const task = await Task.findOne({
-                where: {id: id}
+                where: {id: id}, include: [{model: Rating, as: 'ratings'}]
             })
             return res.json(task);
         }
     }
 
-    async getAllByUserId(req, res) {
-        const {userId} = req.query;
-        if (!userId) {
-            res.json({message: "No user ID specified!"})
-        } else {
-            const tasks = await Task.findAll({where: {userId: userId}})
-            return res.json(tasks);
-        }
-    }
-
     async getLastAdded(req, res) {
         const tasks = await Task.findAll({
+            include: {model: Rating, as: 'ratings'},
             limit: 7,
-            order: [['createdAt', 'DESC']]
+            order: [['createdAt', 'DESC']],
         });
         return res.json(tasks);
     }
 
     async getAll(req, res) {
-        const tasks = await Task.findAll();
+        const tasks = await Task.findAll({include: {model: Rating, as: 'ratings'}});
         return res.json(tasks);
     }
 }

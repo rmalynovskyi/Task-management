@@ -34,7 +34,7 @@ Task.belongsTo(User);
 User.hasMany(CompleteTask);
 CompleteTask.belongsTo(User);
 
-Task.hasMany(Rating);
+Task.hasMany(Rating, {onDelete: 'CASCADE', hooks: true});
 Rating.belongsTo(Task);
 
 module.exports = {

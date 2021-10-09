@@ -18,7 +18,7 @@ const AppRouter = () => {
                 <Route path="/user/:id" component={User} exact={true}/>
                 <Route path="/user/:id/createUpdate" component={CreateUpdateTask} exact={true}/>
                 <Route path="/user/:id/createUpdate/:taskId" component={CreateUpdateTask} exact={true}/>
-                <Route path="/user/:id/openTask/:taskId" exact={true}><Task userName={user.displayName}/></Route>
+                <Route path="/openTask/:taskId" exact={true}><Task userName={user.displayName}/></Route>
                 <Route path="/admin" component={Admin} exact={true}/>
                 <Redirect to="/login"/>
             < /Switch>
@@ -26,7 +26,7 @@ const AppRouter = () => {
         (
             <Switch>
                 <Route path="/" component={MainPage} exact={true}/>
-                <Route path="/user/:id/openTask/:taskId" component={Task} exact={true}/>
+                <Route path="/openTask/:taskId" component={Task} exact={true}/>
                 <Redirect to="/"/>
             </Switch>
         );
