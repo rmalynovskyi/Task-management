@@ -49,11 +49,16 @@ class TaskController {
         }
     }
 
-    async getAll(req, res) {
+    async getLastAdded(req, res) {
         const tasks = await Task.findAll({
             limit: 7,
             order: [['createdAt', 'DESC']]
         });
+        return res.json(tasks);
+    }
+
+    async getAll(req, res) {
+        const tasks = await Task.findAll();
         return res.json(tasks);
     }
 }

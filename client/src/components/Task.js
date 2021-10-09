@@ -7,8 +7,9 @@ import DescriptionMarkdown from './DescriptionMarkdown';
 import ImagesUploader from "./ImagesUploader";
 import {Context} from "../index";
 import {useAuthState} from "react-firebase-hooks/auth";
+import Rating from "./Rating";
 
-const Task = () => {
+const Task = (props) => {
     let history = useHistory();
     const {auth} = useContext(Context);
     const [user] = useAuthState(auth);
@@ -69,7 +70,7 @@ const Task = () => {
                             <DescriptionMarkdown text={task.description}/></p>
                         <ImagesUploader/>
                         {enter === true ? <AlertSolution class={correct} solved={solved}/> : ""}
-                        {user !== null ? <InputGroup className="mt-5">
+                        {user ? <InputGroup className="mt-5">
                             <FormControl
                                 placeholder="Enter solution"
                                 aria-describedby="basic-addon2"
@@ -86,6 +87,7 @@ const Task = () => {
                             Exit
                         </Button>
                     </div>
+                    {user ? <Rating userId={id} userName={props.userName} taskId={taskId}/> : ""}
                 </div>
             </div>
         </div>

@@ -16,6 +16,10 @@ code {
     text-align: center;
 }
 
+.rating {
+    display: inline-block;
+}
+
 .userInfo {
     margin: 15px;
 }
@@ -24,6 +28,6 @@ code {
     margin: 15px;
 }
 
-.container{
+.container {
     margin-bottom: 30px;
 }

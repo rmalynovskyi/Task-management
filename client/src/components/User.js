@@ -3,12 +3,14 @@ import {useHistory, useParams} from 'react-router-dom';
 import Axios from 'axios';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, {textFilter} from 'react-bootstrap-table2-filter';
-import {Card, Button, Container, Navbar} from 'react-bootstrap';
+import {Card, Button, Container, Navbar, Col, Row} from 'react-bootstrap';
 import {Context} from "../index";
+import TaskCard from "./TaskCard";
 
 const User = () => {
     let {id} = useParams();
     let history = useHistory();
+    const [tasks, setTasks] = useState([]);
     const [user, setUser] = useState({});
     const [userTasks, setUserTasks] = useState([]);
     const [selectedId, setSelectedId] = useState(0);
@@ -31,7 +33,7 @@ const User = () => {
         filter: textFilter()
     }, {
         formatter: (cellContent, row) => {
-            return <Button variant="info" onClick={() => openTask(row.id)}>Open task</Button>
+            return <Button variant="info" onClick={() => openTask(row.id)}>Read task</Button>
         }
     }];
 
@@ -52,6 +54,9 @@ const User = () => {
             setUser(response.data);
             setUserTasks(response.data.tasks)
         })
+        Axios.get("/api/tasks/").then(response => {
+            setTasks(response.data)
+        });
     }, [])
 
     function openTask(taskId) {
@@ -87,6 +92,7 @@ const User = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+            <Row className="fs-3 justify-content-center">Your tasks</Row>
             <BootstrapTable bootstrap4={true} keyField='id' data={userTasks} columns={columns}
                             filter={filterFactory()} selectRow={selectRow}/>
             <Button style={{margin: "15px"}} variant="primary" onClick={addTask}>Add task</Button>
@@ -94,6 +100,14 @@ const User = () => {
             <Button style={{margin: "15px"}} variant="warning" onClick={updateTask}>Update task</Button>
             <Card body>Solved tasks: {user.solvedTasks}</Card>
             <Card body>Created tasks: {user.createdTasks}</Card>
+            <Row className="fs-3 justify-content-center">All tasks</Row>
+            <Row>
+                {tasks.map((value) => {
+                    return <Col className="mb-3"><TaskCard name={value.name} topic={value.topic}
+                                                           id={value.id}
+                                                           userId={value.userId}/></Col>
+                })}
+            </Row>
             <Button style={{margin: "15px"}} variant="outline-secondary" onClick={() => auth.signOut()}>Sign
                 out</Button>
         </div>

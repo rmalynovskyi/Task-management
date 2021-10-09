@@ -22,14 +22,24 @@ const CompleteTask = sequelize.define("completeTask", {
     solution: {type: DataTypes.STRING, allowNull: false}
 });
 
+const Rating = sequelize.define("rating", {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    value: {type: DataTypes.INTEGER, allowNull: false},
+    userId: {type: DataTypes.INTEGER, allowNull: false}
+});
+
 User.hasMany(Task);
 Task.belongsTo(User);
 
 User.hasMany(CompleteTask);
 CompleteTask.belongsTo(User);
 
+Task.hasMany(Rating);
+Rating.belongsTo(Task);
+
 module.exports = {
     User,
     Task,
-    CompleteTask
+    CompleteTask,
+    Rating
 }

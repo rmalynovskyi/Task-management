@@ -12,10 +12,8 @@ const TaskCard = (props) => {
                     <Card.Text>
                         {props.topic}
                     </Card.Text>
-                    <Button variant="primary" onClick={() => {
+                    <Button variant="info" onClick={() => {
                         history.push(`/user/${props.userId}/openTask/${props.id}`)
-                        console.log("userId: " + props.userId)
-                        console.log("taskId: " + props.id)
                     }}>Read task</Button>
                 </Card.Body>
             </Card>

@@ -9,7 +9,7 @@ const MainPage = () => {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
-        Axios.get("api/tasks/").then(res => setTasks(res.data));
+        Axios.get("api/tasks/new").then(res => setTasks(res.data));
     }, [])
 
     const socialMediaAuth = (provider) => {
@@ -19,7 +19,6 @@ const MainPage = () => {
                 if (res.data === null) {
                     Axios.post("api/users", user).then()
                 }
-                console.log(res.data);
             });
         }).catch((error) => {
             console.log(error)
