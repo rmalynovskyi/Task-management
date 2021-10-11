@@ -6,10 +6,14 @@ import Axios from "axios";
 import TaskCard from "./TaskCard";
 
 const MainPage = () => {
-    const [tasks, setTasks] = useState([]);
+    const [lastAdded, setLastAdded] = useState([]);
+    const [higherRateTasks, setHigherRateTasks] = useState([]);
     useEffect(() => {
         Axios.get("api/tasks/new").then(res => {
-            setTasks(res.data)
+            setLastAdded(res.data)
+        });
+        Axios.get("api/tasks/higher").then(res => {
+            setHigherRateTasks(res.data)
         });
     }, [])
 
@@ -51,12 +55,17 @@ const MainPage = () => {
                     </a>
                 </Col>
             </Row>
-            <Row className="fs-3">Latest tasks:</Row>
-            <Row>
-                {tasks.map((value, index) => {
-                    return <Col className="mb-3"><TaskCard rating={value.ratings} name={value.name} topic={value.topic}
-                                                           id={value.id}/></Col>
-                })}
+            <Row className="fs-3 justify-content-center">Latest added tasks:</Row>
+            <Row>{lastAdded.map((value, index) => {
+                return <Col className="mb-3"><TaskCard averageRate={value.average} name={value.name} topic={value.topic}
+                                                       id={value.id}/></Col>
+            })}
+            </Row>
+            <Row className="fs-3 justify-content-center">Most highly rated tasks:</Row>
+            <Row>{higherRateTasks.map((value, index) => {
+                return <Col className="mb-3"><TaskCard averageRate={value.average} name={value.name} topic={value.topic}
+                                                       id={value.id}/></Col>
+            })}
             </Row>
         </Container>
     );

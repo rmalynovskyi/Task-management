@@ -62,7 +62,7 @@ const Task = (props) => {
                         <h3 className="display-5">{task.topic}</h3>
                         <p className="col-md-12 fs-4">
                             <DescriptionMarkdown text={task.description}/></p>
-                        <ImagesUploader/>
+                        {user ? <ImagesUploader/> : ""}
                         {enter === true ? <AlertSolution class={correct} solved={solved}/> : ""}
                         {user ? <InputGroup className="mt-5">
                             <FormControl
@@ -77,8 +77,7 @@ const Task = (props) => {
                             </Button>
                         </InputGroup> : ""}
                         <Button className="mt-3" variant="outline-secondary"
-                                onClick={() => history.push(user !== null ? `/user/${currentUser.id}` : "/")}>
-                            Exit
+                                onClick={() => history.push(user !== null ? `/user/${currentUser.id}` : "/")}>Exit
                         </Button>
                     </div>
                     {user ? <Rating userId={currentUser.id} taskId={taskId}/> : ""}

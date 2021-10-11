@@ -1,4 +1,5 @@
 const {Task, Rating} = require('../models/models');
+const sequelize = require("../models");
 
 class TaskController {
 
@@ -39,17 +40,55 @@ class TaskController {
         }
     }
 
-    async getLastAdded(req, res) {
+    async getAllLastAdded(req, res) {
         const tasks = await Task.findAll({
+            subQuery: false,
             include: {model: Rating, as: 'ratings'},
-            limit: 7,
+            attributes: {
+                include: [
+                    [sequelize.fn('AVG', sequelize.col('ratings.value')), 'average'],
+                ]
+            },
+            group: [
+                'id',
+            ],
+            limit: 3,
             order: [['createdAt', 'DESC']],
         });
         return res.json(tasks);
     }
 
+    async getAllHigherRating(req, res) {
+        const tasks = await Task.findAll({
+            subQuery: false,
+            include: {model: Rating, as: "ratings"},
+            attributes: {
+                include: [
+                    [sequelize.fn('AVG', sequelize.col('ratings.value')), 'average'],
+                ]
+            },
+            limit: 3,
+            group: [
+                'id',
+            ],
+            order: [[sequelize.fn('AVG', sequelize.col('ratings.value')), 'DESC']]
+        });
+        return res.json(tasks);
+    }
+
     async getAll(req, res) {
-        const tasks = await Task.findAll({include: {model: Rating, as: 'ratings'}});
+        const tasks = await Task.findAll({
+            subQuery: false,
+            include: {model: Rating, as: 'ratings'},
+            attributes: {
+                include: [
+                    [sequelize.fn('AVG', sequelize.col('ratings.value')), 'average'],
+                ]
+            },
+            group: [
+                'id',
+            ]
+        });
         return res.json(tasks);
     }
 }

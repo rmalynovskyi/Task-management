@@ -104,7 +104,7 @@ const User = () => {
             <Card body>Created tasks: {user.createdTasks}</Card>
             <Row className="fs-3 justify-content-center">All tasks</Row>
             <Row>{tasks.map((value) => {
-                return <Col className="mb-3"><TaskCard rating={value.ratings} name={value.name} topic={value.topic}
+                return <Col className="mb-3"><TaskCard averageRate={value.average} name={value.name} topic={value.topic}
                                                        id={value.id}/></Col>
             })}
             </Row>

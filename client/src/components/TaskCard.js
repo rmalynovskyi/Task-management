@@ -6,25 +6,26 @@ import AverageRate from "./AverageRate";
 const TaskCard = (props) => {
     let history = useHistory();
 
-    function calculateAverage(data) {
-        let sum = 0;
-        let count = 0;
-        if (data.length === 0) {
-            return 0
-        } else {
-            for (let i = 0; i < data.length; i++) {
-                sum += data[i].value;
-                count++;
-            }
-            return sum / count;
-        }
-    }
+    /* function calculateAverage(data) {
+         let sum = 0;
+         let count = 0;
+         if (data.length === 0) {
+             return 0
+         } else {
+             for (let i = 0; i < data.length; i++) {
+                 sum += data[i].value;
+                 count++;
+             }
+             return sum / count;
+         }
+     }*/
 
     return (
         <div>
             <Card style={{width: '18rem'}}>
                 <Card.Body>
-                    <Card.Title>  {props.name} <AverageRate rate={calculateAverage(props.rating)}/>
+                    <Card.Title>  {props.name} <AverageRate
+                        rate={props.averageRate}/>
                     </Card.Title>
                     <Card.Text>
                         {props.topic}
