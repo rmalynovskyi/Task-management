@@ -62,7 +62,6 @@ const Task = (props) => {
                         <h3 className="display-5">{task.topic}</h3>
                         <p className="col-md-12 fs-4">
                             <DescriptionMarkdown text={task.description}/></p>
-                        {user ? <ImagesUploader/> : ""}
                         {enter === true ? <AlertSolution class={correct} solved={solved}/> : ""}
                         {user ? <InputGroup className="mt-5">
                             <FormControl

@@ -6,6 +6,7 @@ import Solutions from './Solutions';
 import TaskName from './TaskName';
 import TaskDescription from './TaskDescription';
 import TaskTopic from './TaskTopic';
+import ImagesUploader from "./ImagesUploader";
 
 const CreateUpdateTask = () => {
     const {id, taskId} = useParams();
@@ -105,8 +106,8 @@ const CreateUpdateTask = () => {
     }
 
     return (
-        <Form>
-            <Container>
+        <Container>
+            <Form>
                 <TaskName name={(data) => getName(data)}
                           nameUpdate={(data) => getNameToUpdate(data)}
                           isUpdating={isUpdating}
@@ -122,16 +123,17 @@ const CreateUpdateTask = () => {
                 <Solutions solutionsCreate={(data) => getSolutionsCreate(data)}
                            solutionForUpdate={solutionsToUpdate} solutionsUpdate={(data) => getSolutionsUpdate(data)}
                            isUpdating={isUpdating()}/>
-                <Button onClick={isUpdating() === true ? updateTask : createTask} variant="primary" type="submit">
-                    Submit
-                </Button>
-                <Button style={{margin: "30px"}} onClick={() => {
-                    history.push(`/user/${id}`)
-                }} variant="secondary" type="submit">
-                    Cancel
-                </Button>
-            </Container>
-        </Form>
+            </Form>
+            <ImagesUploader/>
+            <Button onClick={isUpdating() === true ? updateTask : createTask} variant="primary" type="submit">
+                Submit
+            </Button>
+            <Button style={{margin: "30px"}} onClick={() => {
+                history.push(`/user/${id}`)
+            }} variant="secondary" type="submit">
+                Cancel
+            </Button>
+        </Container>
     );
 };
 

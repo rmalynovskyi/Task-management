@@ -1,9 +1,7 @@
 module.exports = {
-    HOST: "localhost"/*"us-cdbr-east-04.cleardb.com"*/,
-    USER: "root"/*"b8a9ed4b9acfea"*/,
-    PASSWORD: "root"/*"0b8f56ec"*/,
-    DB: "task_storage"/*"heroku_1bee8319e312dc3"*/,
+    HOST: "us-cdbr-east-04.cleardb.com",
+    USER: "bcd75fd974591a",
+    PASSWORD: "11988463",
+    DB: "heroku_d62198af5f2ab6e",
     dialect: "mysql"
 };
-
-//mysql://b8a9ed4b9acfea:0b8f56ec@us-cdbr-east-04.cleardb.com/heroku_1bee8319e312dc3?reconnect=true
